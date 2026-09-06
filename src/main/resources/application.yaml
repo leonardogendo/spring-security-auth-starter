@@ -1,3 +1,8 @@
 spring:
   application:
     name: auth-starter
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate

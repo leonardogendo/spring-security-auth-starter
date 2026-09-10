@@ -6,3 +6,11 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+
+# JWT Configuration
+# The application both issues and validates JWTs, so both issuer and audience are the same
+jwt:
+  secret: ${JWT_SECRET}
+  issuer: auth-starter
+  audience: auth-starter
+  access-token-ttl: 15m

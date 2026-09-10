@@ -78,7 +78,7 @@ Phase 8 — Starter Experience & Reference Documentation
 
 # Phase 1 — Authentication Foundation
 
-**Goal:** Deliver complete authentication flow with JWT access tokens.
+**Goal:** Deliver complete authentication flow with JWT access tokens and basic user registration.
 
 **Scope:**
 - User model: id, email, password_hash, enabled, timestamps
@@ -87,16 +87,20 @@ Phase 8 — Starter Experience & Reference Documentation
 - Resource Server: OAuth2 bearer-token validation
 - Protected endpoint: GET /api/user/profile
 - Generic authentication failure responses
+- User registration with email normalization
+- Password policy validation
 
 **Security Requirements:**
 - Passwords never stored in plaintext
 - Signing secrets never committed to source control
 - JWT signature, issuer, audience validation enforced
 - Stateless sessions, explicit CORS
+- Prevent account enumeration in registration responses
 
 **Tests:**
 - Unit: token construction, expiration, auth service behavior
 - Integration: valid/invalid credentials, malformed/invalid/expired JWT, wrong issuer/audience
+- Registration: valid/invalid email formats, password policy violations
 
 **Release:** v0.1.0 — Authentication Foundation
 
@@ -121,18 +125,17 @@ Phase 8 — Starter Experience & Reference Documentation
 
 ---
 
-# Phase 3 — Registration & Account Verification
+# Phase 3 — Account Verification
 
 **Goal:** Secure account lifecycle with email verification.
 
 **Scope:**
-- User registration with email normalization
-- Password policy validation
 - Email verification tokens: random, scoped, expiring, single-use
 - Account enablement rules
+- Email verification flow
 
 **Security Requirements:**
-- Prevent account enumeration in responses
+- Prevent account enumeration in verification responses
 - Plan registration abuse controls
 
 **Release:** v0.3.0
@@ -255,6 +258,6 @@ Each milestone must satisfy:
 
 **v0.1.0 — Authentication Foundation**
 
-Implement persisted user authentication → Spring Security login → JWT access token → Resource Server validation → protected resource access.
+Implement persisted user authentication → Spring Security login → JWT access token → Resource Server validation → protected resource access → basic user registration.
 
-Narrow: no refresh tokens, RBAC, registration, email verification, or password reset until foundation is stable.
+Narrow: no refresh tokens, RBAC, email verification, or password reset until foundation is stable.

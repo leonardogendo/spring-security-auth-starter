@@ -33,10 +33,10 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @Column(name = "email_verified", nullable = false, length = 255)
+    @Column(name = "email_verified", nullable = false)
     private boolean emailVerified = false;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
         name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id")
@@ -54,7 +54,12 @@ public class User {
     // Explicit constructor for creating a new user
     public User(String email, String passwordHash) {
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.passwordHash = passwordHash; 
+    }
+
+    // Role management
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     // Lifecycle callbacks for timestamp management

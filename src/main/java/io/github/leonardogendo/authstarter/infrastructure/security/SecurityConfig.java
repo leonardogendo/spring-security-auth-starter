@@ -22,6 +22,9 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
 
@@ -68,14 +71,23 @@ public class SecurityConfig {
                                 .authenticated()
                 )
 
+                .exceptionHandling(exceptions ->
+                        exceptions
+                                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                                .accessDeniedHandler(restAccessDeniedHandler)
+                )
+
                 .authenticationProvider(authenticationProvider)
 
                 .oauth2ResourceServer(resourceServer ->
-                        resourceServer.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(
-                                        jwtAuthenticationConverter
+                        resourceServer
+                                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                                .accessDeniedHandler(restAccessDeniedHandler)
+                                .jwt(jwt ->
+                                        jwt.jwtAuthenticationConverter(
+                                                jwtAuthenticationConverter
+                                        )
                                 )
-                        )
                 );
 
         return http.build();

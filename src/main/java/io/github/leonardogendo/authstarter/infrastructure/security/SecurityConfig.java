@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import jakarta.servlet.DispatcherType;
 
 @Configuration
 @RequiredArgsConstructor
@@ -62,6 +63,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth ->
                         auth
+                                .dispatcherTypeMatchers(DispatcherType.ERROR)
+                                .permitAll()
+                                
                                 .requestMatchers(
                                         "/api/auth/register",
                                         "/api/auth/login"
